@@ -14,9 +14,16 @@ module TrafficSim
     attr_reader :vehicle_strategies, :map
 
     def run
+      step_count = 1
       until map.vehicles.empty?
         step
         yield map
+
+        puts "Step: #{step_count}"
+        puts "--- please, press ENTER key ---"
+        STDIN.gets.strip
+
+        step_count = step_count + 1
       end
     end
 
@@ -27,7 +34,7 @@ module TrafficSim
 
         case instruction
         when :increase_speed
-          v.speed_up 
+          v.speed_up
         when :decrease_speed
           v.slow_down
         when :face_north
@@ -57,8 +64,10 @@ module TrafficSim
 
       case map[*dest]
       when Dock
-        raise DeathByLaser unless map[dest].owned_by?(v.driver_name)
-        map.vehicles.delete(v)
+        # fix by vinibaggio
+        raise DeathByLaser unless map[*dest].owned_by?(v.driver_name)
+        # bug: should be delete by key !?
+        map.vehicles.delete(v.driver_name)
       when Vehicle
         raise VehicleCollision
       when nil
@@ -70,3 +79,4 @@ module TrafficSim
     end
   end
 end
+

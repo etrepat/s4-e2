@@ -27,6 +27,10 @@ module TrafficSim
       data.transpose
     end
 
+    def empty?(point)
+      self[*point] == EMPTY
+    end
+
     def destination(params)
       row, col  = params[:origin]
       distance  = params[:distance]

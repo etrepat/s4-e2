@@ -48,5 +48,15 @@ describe TrafficSim::Map do
       assert_equal num_empty_cells, num_cells - num_occupied_cells
     end
   end
+
+  describe '#empty?' do
+    it 'should return true if position is actually empty, false otherwise' do
+      empty = TrafficSim::Map::EMPTY
+      assert @map.empty?([1,1])
+      assert @map.empty?([2,2])
+      assert @map.empty?([3,3])
+      refute @map.empty?([5,4])
+    end
+  end
 end
 

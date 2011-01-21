@@ -1,5 +1,7 @@
 module TrafficSim
   class Map
+    InvalidDirection = Class.new(StandardError)
+
     DIRECTIONS = [:north, :south, :east, :west]
     ASTEROID   = :asteroid
     EMPTY      = :empty
@@ -13,7 +15,7 @@ module TrafficSim
 
     def [](row, col)
       @data.fetch(row).fetch(col)
-    rescue ::IndexError
+    rescue IndexError
       raise ArgumentError, "[#{row}, #{col}] is out of bounds"
     end
 
@@ -34,9 +36,12 @@ module TrafficSim
     end
 
     def destination(params)
-      row, col  = params[:origin]
-      distance  = params[:distance]
-      direction = params[:direction]
+      raise ArgumentError, 'point of origin is required' unless params[:origin]
+      row, col  = params.fetch(:origin)
+      distance  = params.fetch(:distance, Vehicle::MIN_SPEED+1)
+      direction = params.fetch(:direction, DIRECTIONS.first)
+      raise InvalidDirection, "unrecognized #{direction} as direction" \
+        unless DIRECTIONS.include?(direction)
 
       dest_point = case direction
       when :north

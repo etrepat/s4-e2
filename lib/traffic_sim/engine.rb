@@ -57,9 +57,7 @@ module TrafficSim
 
       case map[*dest]
       when Dock
-        # fix by vinibaggio
         raise DeathByLaser unless map[*dest].owned_by?(v.driver_name)
-        # bug: should be delete by key !?
         map.vehicles.delete(v.driver_name)
       when Vehicle
         raise VehicleCollision

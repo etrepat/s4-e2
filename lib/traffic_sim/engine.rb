@@ -14,16 +14,9 @@ module TrafficSim
     attr_reader :vehicle_strategies, :map
 
     def run
-      step_count = 1
       until map.vehicles.empty?
         step
         yield map
-
-        puts "Step: #{step_count}"
-        puts "--- please, press ENTER key ---"
-        STDIN.gets.strip
-
-        step_count = step_count + 1
       end
     end
 

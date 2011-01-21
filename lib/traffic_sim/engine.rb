@@ -53,7 +53,7 @@ module TrafficSim
       raise LostInSpace unless dest
       raise AsteroidCollision unless map.clear_path?(origin, dest)
 
-      map[*origin] = nil
+      map[*origin] = Map::EMPTY
 
       case map[*dest]
       when Dock
@@ -61,7 +61,7 @@ module TrafficSim
         map.vehicles.delete(v.driver_name)
       when Vehicle
         raise VehicleCollision
-      when nil
+      when Map::EMPTY
         map[*dest] = v
         v.position = dest
       else

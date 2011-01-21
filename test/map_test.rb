@@ -49,6 +49,31 @@ describe TrafficSim::Map do
     end
   end
 
+  describe '#[]' do
+    it 'should raise ArgumentError if row, col pair is out of bounds' do
+      assert_raises ArgumentError do
+        @map[150, 200]
+      end
+    end
+  end
+
+  describe '#[row,col]=' do
+    it 'should raise ArgumentError if row, col pair is out of bounds' do
+      assert_raises ArgumentError do
+        @map[150, 200]
+      end
+    end
+
+    it 'should actually assign the value into specified position' do
+      asteroid  = TrafficSim::Map::ASTEROID
+      empty     = TrafficSim::Map::EMPTY
+
+      assert_equal @map[2,2], empty
+      @map[2,2] = asteroid
+      assert_equal @map[2,2], asteroid
+    end
+  end
+
   describe '#empty?' do
     it 'should return true if position is actually empty, false otherwise' do
       empty = TrafficSim::Map::EMPTY
@@ -56,6 +81,7 @@ describe TrafficSim::Map do
       assert @map.empty?([2,2])
       assert @map.empty?([3,3])
       refute @map.empty?([5,4])
+      refute @map.empty?([4,13])
     end
   end
 end

@@ -12,11 +12,13 @@ module TrafficSim
     attr_reader :vehicles
 
     def [](row, col)
-      @data[row][col]
+      @data.fetch(row).fetch(col)
+    rescue ::IndexError
+      raise ArgumentError, "[#{row}, #{col}] is out of bounds"
     end
 
     def []=(row, col, val)
-      @data[row][col] = val
+      @data[row][col] = val if self[row, col] # w/bounds check
     end
 
     def rows
@@ -73,9 +75,9 @@ module TrafficSim
       data.map do |row|
         output = row.map do |obj|
           case obj
-          when Map::EMPTY
+          when EMPTY
             " "
-          when Map::ASTEROID
+          when ASTEROID
             "#"
           when Vehicle
             obj.driver_name
@@ -114,7 +116,6 @@ module TrafficSim
         raise
       end
     end
-
   end
 end
 

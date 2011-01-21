@@ -24,8 +24,8 @@ module TrafficSim
     def face(direction)
       raise ArgumentError unless Map::DIRECTIONS.include?(direction)
 
-      @facing = direction 
+      @facing = direction
     end
-
   end
 end
+
